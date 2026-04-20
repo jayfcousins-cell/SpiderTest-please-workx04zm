@@ -1,0 +1,31 @@
+{
+  "name": "maadi-atlas-backend",
+  "version": "0.1.0",
+  "description": "Backend + data pipeline for the Maadi Property Atlas",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "node --experimental-strip-types src/server.ts",
+    "build": "tsc -p tsconfig.json",
+    "seed": "tsx scripts/seed.ts",
+    "import:csv": "tsx scripts/import-csv.ts",
+    "sync": "tsx src/sync.ts",
+    "test": "tsx --test tests/features.test.ts tests/traffic.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fastify/cors": "^10.0.1",
+    "better-sqlite3": "^11.5.0",
+    "fastify": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.11",
+    "@types/node": "^22.9.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}

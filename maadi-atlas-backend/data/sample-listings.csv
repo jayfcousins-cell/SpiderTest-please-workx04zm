@@ -1,0 +1,6 @@
+source_url,title,area,street,listing,price_egp,beds,baths,sqm,description,lat,lng
+https://example.com/p/a1,Garden apartment Road 233,Maadi Degla,Road 233,rent,48000,3,2,175,"Ground floor with garden on a quiet Degla street. Private garden runs the length of the unit.",29.9592,31.2660
+https://example.com/p/a2,Rooftop penthouse Road 9,Old Maadi,Road 9,rent,70000,3,3,230,"Penthouse with rooftop terrace and roof access. Terrace overlooks the Road 9 promenade.",29.9615,31.2578
+https://example.com/p/a3,Ground floor near Maadi Club,Old Maadi,Road 10,rent,36000,2,2,135,"Ground floor apartment with direct street entrance two minutes from Maadi Club.",29.9604,31.2502
+https://example.com/p/a4,Sarayat villa with garden,Maadi Sarayat,Road 254,sale,39000000,5,5,500,"Detached villa, garden apartment level with garden access from every main room.",29.9642,31.2565
+https://example.com/p/a5,New Maadi rooftop flat,New Maadi,El Nasr Road,sale,8900000,4,3,240,"Top floor flat with roof access and a private rooftop terrace.",29.9690,31.2840
