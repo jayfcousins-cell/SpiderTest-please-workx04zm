@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "start": "node --experimental-strip-types src/server.ts",
+    "start": "tsx src/server.ts",
     "build": "tsc -p tsconfig.json",
     "seed": "tsx scripts/seed.ts",
     "import:csv": "tsx scripts/import-csv.ts",

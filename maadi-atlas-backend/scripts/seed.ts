@@ -138,27 +138,34 @@ const SEEDS: RawListing[] = [
   },
 ];
 
-async function main(): Promise<void> {
+export async function seedIfEmpty(): Promise<{
+  inserted: number;
+  skipped: Array<{ url: string; reason: string }>;
+}> {
   getDb();
-
-  let ok = 0;
-  const misses: Array<{ url: string; reason: string }> = [];
+  let inserted = 0;
+  const skipped: Array<{ url: string; reason: string }> = [];
   for (const raw of SEEDS) {
     const result = await enrichAndUpsert(raw);
-    if (result.ok) {
-      ok += 1;
-    } else {
-      misses.push({ url: raw.sourceUrl, reason: result.reason });
-    }
+    if (result.ok) inserted += 1;
+    else skipped.push({ url: raw.sourceUrl, reason: result.reason });
   }
+  return { inserted, skipped };
+}
 
+async function main(): Promise<void> {
+  const { inserted, skipped } = await seedIfEmpty();
   console.log(
-    JSON.stringify({ msg: 'seed-complete', inserted: ok, skipped: misses }),
+    JSON.stringify({ msg: 'seed-complete', inserted, skipped }),
   );
   closeDb();
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+// Only run the CLI entry point when this file is executed directly, so
+// `bootstrap.ts` can import `seedIfEmpty` without triggering main().
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}

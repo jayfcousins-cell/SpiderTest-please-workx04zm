@@ -2,6 +2,7 @@ import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import { registerListingsRoute } from './routes/listings.ts';
 import { getDb } from './db/client.ts';
+import { bootstrap } from './bootstrap.ts';
 
 export async function build() {
   const app = Fastify({
@@ -22,8 +23,11 @@ export async function build() {
 
   await app.register(cors, { origin: origins });
 
-  // Touch the DB once so schema migrations run before any request.
+  // Touch the DB once so schema migrations run before any request, then
+  // seed if empty so a fresh deploy (e.g. Render free tier without a disk)
+  // is immediately useful.
   getDb();
+  await bootstrap();
 
   app.get('/health', async () => ({ ok: true }));
   await registerListingsRoute(app);

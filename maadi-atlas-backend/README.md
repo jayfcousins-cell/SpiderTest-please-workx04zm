@@ -127,7 +127,27 @@ npm test
 Covers the feature classifier (Arabic + English, vague descriptions) and
 the traffic scoring formula.
 
-## Deployment
+## Deploy to Render (one-tap, phone-friendly)
+
+A `render.yaml` blueprint is included, so you don't need the Render CLI.
+
+1. Push this branch to GitHub (already done if you're reading this from the PR).
+2. Open [dashboard.render.com/blueprints](https://dashboard.render.com/blueprints) in a browser.
+3. **New Blueprint Instance** → pick this repo → set the **root directory** to
+   `maadi-atlas-backend` → **Apply**.
+4. Render reads `render.yaml`, spins up the free-plan web service, and hands
+   you back a URL like `https://maadi-atlas-backend.onrender.com`.
+
+On first boot the server notices the DB is empty and auto-seeds the 8
+baseline Maadi listings — so `GET /api/listings` works immediately with no
+manual steps. Free plan services spin down after ~15 minutes of inactivity
+and re-seed on wake, which is fine for a demo; upgrade to a paid plan and
+attach a disk for real persistence.
+
+Set `GOOGLE_MAPS_KEY` in the Render dashboard if you want live traffic
+scoring; leaving it blank keeps the heuristic fallback.
+
+## Other deployment notes
 
 Designed for Render or Fly free tier.
 
