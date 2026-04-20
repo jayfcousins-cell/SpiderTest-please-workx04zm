@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Maadi Property Atlas</title>
+    <style>
+      :root {
+        --bg: #faf8f4;
+        --fg: #201d18;
+        --muted: #6b6459;
+        --line: #e7e2d6;
+        --card: #ffffff;
+        --garden: #3f8b4a;
+        --rooftop: #b5752a;
+        --ground: #5b6b88;
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; padding: 0; }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", sans-serif;
+        background: var(--bg);
+        color: var(--fg);
+        line-height: 1.45;
+        -webkit-font-smoothing: antialiased;
+      }
+      header {
+        padding: 20px 16px 12px;
+        border-bottom: 1px solid var(--line);
+        background: #fff;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+      header h1 {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+      header .meta {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+      .controls {
+        padding: 12px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .chip {
+        font: inherit;
+        font-size: 13px;
+        background: #fff;
+        border: 1px solid var(--line);
+        padding: 6px 12px;
+        border-radius: 999px;
+        cursor: pointer;
+        color: var(--fg);
+      }
+      .chip[aria-pressed="true"] {
+        background: var(--fg);
+        color: #fff;
+        border-color: var(--fg);
+      }
+      select {
+        font: inherit;
+        font-size: 13px;
+        padding: 6px 10px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+      main {
+        padding: 12px 16px 48px;
+      }
+      .count {
+        font-size: 12px;
+        color: var(--muted);
+        margin: 4px 0 12px;
+      }
+      .grid {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: 1fr;
+      }
+      @media (min-width: 640px) {
+        .grid { grid-template-columns: repeat(2, 1fr); }
+      }
+      @media (min-width: 960px) {
+        .grid { grid-template-columns: repeat(3, 1fr); }
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 14px;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        position: relative;
+        overflow: hidden;
+      }
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 4px;
+        background: var(--muted);
+      }
+      .card[data-tone="garden"]::before { background: var(--garden); }
+      .card[data-tone="rooftop"]::before { background: var(--rooftop); }
+      .card[data-tone="ground"]::before { background: var(--ground); }
+      .card h3 {
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0;
+        letter-spacing: -0.01em;
+      }
+      .card .sub {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .card .price {
+        font-size: 15px;
+        font-weight: 600;
+      }
+      .card .stats {
+        display: flex;
+        gap: 10px;
+        font-size: 12px;
+        color: var(--muted);
+        flex-wrap: wrap;
+      }
+      .tags {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .tag {
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: #f1ece0;
+        color: var(--muted);
+      }
+      .tag.garden { color: var(--garden); background: #e6f3e8; }
+      .tag.rooftop { color: var(--rooftop); background: #f7ead6; }
+      .tag.ground { color: var(--ground); background: #e7ecf4; }
+      .traffic {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .meter {
+        width: 60px;
+        height: 4px;
+        background: var(--line);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .meter > span {
+        display: block;
+        height: 100%;
+        background: var(--garden);
+      }
+      .meter.low > span { background: #c65a3d; }
+      .meter.mid > span { background: var(--rooftop); }
+
+      .modal-bg {
+        position: fixed;
+        inset: 0;
+        background: rgba(20, 18, 14, 0.55);
+        display: none;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 24px 12px;
+        overflow-y: auto;
+        z-index: 20;
+      }
+      .modal-bg.open { display: flex; }
+      .modal {
+        background: var(--card);
+        border-radius: 14px;
+        max-width: 600px;
+        width: 100%;
+        padding: 20px;
+      }
+      .modal h2 {
+        margin: 0 0 4px;
+        font-size: 20px;
+        letter-spacing: -0.01em;
+      }
+      .modal .close {
+        float: right;
+        background: none;
+        border: none;
+        font-size: 22px;
+        line-height: 1;
+        cursor: pointer;
+        color: var(--muted);
+      }
+      .distances {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px 12px;
+        font-size: 13px;
+        margin: 12px 0;
+      }
+      .distances .k { color: var(--muted); }
+      .distances .v { text-align: right; font-variant-numeric: tabular-nums; }
+      .note {
+        font-size: 14px;
+        color: var(--fg);
+        margin: 10px 0;
+      }
+      .traffic-note {
+        font-size: 13px;
+        color: var(--muted);
+        border-left: 3px solid var(--line);
+        padding: 6px 10px;
+        margin: 10px 0;
+      }
+      a.source {
+        font-size: 12px;
+        color: var(--muted);
+        text-decoration: none;
+        border-bottom: 1px dotted var(--line);
+      }
+      .error, .loading {
+        padding: 24px;
+        color: var(--muted);
+        font-size: 14px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Maadi Property Atlas</h1>
+      <div class="meta" id="meta">Loading…</div>
+    </header>
+
+    <section class="controls" aria-label="Filters">
+      <div class="row" id="listing-filters" role="group" aria-label="Listing type">
+        <button class="chip" data-listing="all" aria-pressed="true">All</button>
+        <button class="chip" data-listing="rent" aria-pressed="false">Rent</button>
+        <button class="chip" data-listing="sale" aria-pressed="false">Sale</button>
+      </div>
+      <div class="row" id="feature-filters" role="group" aria-label="Features">
+        <button class="chip" data-feature="garden" aria-pressed="false">Garden</button>
+        <button class="chip" data-feature="rooftop" aria-pressed="false">Rooftop</button>
+        <button class="chip" data-feature="ground" aria-pressed="false">Ground floor</button>
+      </div>
+      <div class="row">
+        <label for="sort" style="font-size:13px;color:var(--muted);">Sort by</label>
+        <select id="sort">
+          <option value="school216">Distance → Street 216 School</option>
+          <option value="fablab">Distance → Fab Lab</option>
+          <option value="maadiClub">Distance → Maadi Club</option>
+          <option value="wadiDegla">Distance → Wadi Degla</option>
+          <option value="garden">Distance → Victoria Square</option>
+          <option value="traffic">Traffic score (best first)</option>
+          <option value="price">Price (low to high)</option>
+        </select>
+      </div>
+    </section>
+
+    <main>
+      <div class="count" id="count"></div>
+      <div class="grid" id="grid"></div>
+      <div class="loading" id="loading">Loading listings…</div>
+    </main>
+
+    <div class="modal-bg" id="modal" role="dialog" aria-modal="true"></div>
+
+    <script>
+      const DATA_URL =
+        'https://cdn.jsdelivr.net/gh/jayfcousins-cell/SpiderTest-please-workx04zm@main/docs/listings.json';
+
+      const state = {
+        raw: [],
+        listing: 'all',
+        features: new Set(),
+        sort: 'school216',
+      };
+
+      const ANCHOR_LABELS = {
+        school216: 'School 216',
+        fablab: 'Fab Lab',
+        maadiClub: 'Maadi Club',
+        wadiDegla: 'Wadi Degla',
+        garden: 'Victoria Sq',
+      };
+
+      function load() {
+        fetch(DATA_URL)
+          .then((r) => {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return r.json();
+          })
+          .then((j) => {
+            state.raw = j.listings || [];
+            document.getElementById('loading').remove();
+            const updated = j.updatedAt
+              ? new Date(j.updatedAt).toLocaleDateString()
+              : '—';
+            document.getElementById('meta').textContent =
+              state.raw.length +
+              ' listings · updated ' +
+              updated +
+              ' · source: ' +
+              (j.sources || []).join(', ');
+            render();
+          })
+          .catch((err) => {
+            document.getElementById('loading').className = 'error';
+            document.getElementById('loading').textContent =
+              'Could not load listings: ' + err.message;
+          });
+      }
+
+      function filteredSorted() {
+        let out = state.raw.slice();
+        if (state.listing !== 'all') {
+          out = out.filter((p) => p.listing === state.listing);
+        }
+        if (state.features.size > 0) {
+          out = out.filter((p) =>
+            [...state.features].every((f) => p.features.includes(f)),
+          );
+        }
+        if (state.sort === 'traffic') {
+          out.sort((a, b) => b.traffic - a.traffic);
+        } else if (state.sort === 'price') {
+          out.sort((a, b) => a.priceValue - b.priceValue);
+        } else {
+          out.sort(
+            (a, b) => a.distances[state.sort] - b.distances[state.sort],
+          );
+        }
+        return out;
+      }
+
+      function card(p) {
+        const div = document.createElement('button');
+        div.className = 'card';
+        div.dataset.tone = p.tone;
+        div.type = 'button';
+        div.setAttribute('aria-label', p.title + ', ' + p.price);
+        div.style.textAlign = 'left';
+        div.onclick = () => openModal(p);
+
+        const closestKey = Object.keys(p.distances).reduce((best, k) =>
+          p.distances[k] < p.distances[best] ? k : best,
+        );
+
+        const meterClass =
+          p.traffic >= 70 ? '' : p.traffic >= 50 ? 'mid' : 'low';
+
+        div.innerHTML =
+          '<h3>' +
+          esc(p.title) +
+          '</h3>' +
+          '<div class="sub">' +
+          esc(p.area) +
+          ' · ' +
+          esc(p.street) +
+          '</div>' +
+          '<div class="price">' +
+          esc(p.price) +
+          '</div>' +
+          '<div class="stats">' +
+          '<span>' + p.beds + ' bd</span>' +
+          '<span>' + p.baths + ' ba</span>' +
+          '<span>' + p.sqm + ' m²</span>' +
+          '</div>' +
+          '<div class="tags">' +
+          p.features
+            .map((f) => '<span class="tag ' + f + '">' + esc(f) + '</span>')
+            .join('') +
+          '</div>' +
+          '<div class="traffic">' +
+          '<span>Traffic ' + p.traffic + '</span>' +
+          '<span class="meter ' + meterClass + '"><span style="width:' + p.traffic + '%"></span></span>' +
+          '<span>· nearest: ' + esc(ANCHOR_LABELS[closestKey]) + ' ' + p.distances[closestKey].toFixed(2) + ' km</span>' +
+          '</div>';
+        return div;
+      }
+
+      function openModal(p) {
+        const distRows = Object.keys(p.distances)
+          .map(
+            (k) =>
+              '<span class="k">' +
+              esc(ANCHOR_LABELS[k]) +
+              '</span><span class="v">' +
+              p.distances[k].toFixed(2) +
+              ' km</span>',
+          )
+          .join('');
+        const safeUrl = /^https?:\/\//.test(p.sourceUrl) ? p.sourceUrl : '#';
+        const modal = document.getElementById('modal');
+        modal.innerHTML =
+          '<div class="modal">' +
+          '<button class="close" aria-label="Close">×</button>' +
+          '<h2>' + esc(p.title) + '</h2>' +
+          '<div class="sub" style="color:var(--muted);font-size:13px;">' + esc(p.area) + ' · ' + esc(p.street) + '</div>' +
+          '<div class="price" style="font-size:18px;margin-top:6px;">' + esc(p.price) + '</div>' +
+          '<div class="stats" style="margin-top:6px;"><span>' + p.beds + ' bd</span><span>' + p.baths + ' ba</span><span>' + p.sqm + ' m²</span></div>' +
+          '<div class="tags" style="margin-top:8px;">' +
+          p.features.map((f) => '<span class="tag ' + f + '">' + esc(f) + '</span>').join('') +
+          '</div>' +
+          '<p class="note">' + esc(p.note) + '</p>' +
+          '<div class="distances">' + distRows + '</div>' +
+          '<div class="traffic-note"><strong>Traffic ' + p.traffic + '/100.</strong> ' + esc(p.trafficNote) + '</div>' +
+          '<a class="source" href="' + esc(safeUrl) + '" target="_blank" rel="noopener">Source: ' + esc(p.source) + '</a>' +
+          '</div>';
+        modal.classList.add('open');
+        modal.querySelector('.close').onclick = closeModal;
+        modal.onclick = (e) => {
+          if (e.target === modal) closeModal();
+        };
+      }
+
+      function closeModal() {
+        document.getElementById('modal').classList.remove('open');
+      }
+
+      function esc(s) {
+        return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({
+          '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+        })[c]);
+      }
+
+      function render() {
+        const grid = document.getElementById('grid');
+        const list = filteredSorted();
+        grid.innerHTML = '';
+        for (const p of list) grid.appendChild(card(p));
+        document.getElementById('count').textContent =
+          list.length + (list.length === 1 ? ' match' : ' matches');
+      }
+
+      document.getElementById('listing-filters').addEventListener('click', (e) => {
+        const btn = e.target.closest('button[data-listing]');
+        if (!btn) return;
+        state.listing = btn.dataset.listing;
+        document.querySelectorAll('#listing-filters .chip').forEach((c) => {
+          c.setAttribute('aria-pressed', c === btn ? 'true' : 'false');
+        });
+        render();
+      });
+
+      document.getElementById('feature-filters').addEventListener('click', (e) => {
+        const btn = e.target.closest('button[data-feature]');
+        if (!btn) return;
+        const f = btn.dataset.feature;
+        if (state.features.has(f)) {
+          state.features.delete(f);
+          btn.setAttribute('aria-pressed', 'false');
+        } else {
+          state.features.add(f);
+          btn.setAttribute('aria-pressed', 'true');
+        }
+        render();
+      });
+
+      document.getElementById('sort').addEventListener('change', (e) => {
+        state.sort = e.target.value;
+        render();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+      });
+
+      load();
+    </script>
+  </body>
+</html>
