@@ -127,16 +127,24 @@ npm test
 Covers the feature classifier (Arabic + English, vague descriptions) and
 the traffic scoring formula.
 
-## Deploy to Render (one-tap, phone-friendly)
+## Deploy to Render (one tap, phone-friendly)
 
-A `render.yaml` blueprint is included, so you don't need the Render CLI.
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/jayfcousins-cell/SpiderTest-please-workx04zm)
 
-1. Push this branch to GitHub (already done if you're reading this from the PR).
-2. Open [dashboard.render.com/blueprints](https://dashboard.render.com/blueprints) in a browser.
-3. **New Blueprint Instance** → pick this repo → set the **root directory** to
-   `maadi-atlas-backend` → **Apply**.
-4. Render reads `render.yaml`, spins up the free-plan web service, and hands
-   you back a URL like `https://maadi-atlas-backend.onrender.com`.
+Tap the button above on your phone:
+
+1. It opens Render and asks you to sign in with GitHub (one-time).
+2. Render reads `maadi-atlas-backend/render.yaml` from the repo and
+   pre-fills the service config.
+3. Hit **Apply** and wait ~3 minutes.
+4. Render hands you back a URL like
+   `https://maadi-atlas-backend.onrender.com`.
+
+If the button doesn't pick up the branch, use the manual path:
+
+1. Open [dashboard.render.com/blueprints](https://dashboard.render.com/blueprints).
+2. **New Blueprint Instance** → pick this repo → **branch**
+   `claude/maadi-atlas-backend-Ev7qr` → **Apply**.
 
 On first boot the server notices the DB is empty and auto-seeds the 8
 baseline Maadi listings — so `GET /api/listings` works immediately with no
