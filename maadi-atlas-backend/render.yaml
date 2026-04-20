@@ -1,0 +1,31 @@
+# Render Blueprint. From your phone:
+#   1. Push this branch to GitHub.
+#   2. Open https://dashboard.render.com/blueprints in a browser.
+#   3. "New Blueprint Instance" → pick this repo → set the root directory to
+#      `maadi-atlas-backend` → "Apply".
+# Render reads this file, provisions the service, and gives you a
+# https://maadi-atlas-backend.onrender.com URL when it finishes.
+services:
+  - type: web
+    name: maadi-atlas-backend
+    runtime: node
+    plan: free
+    rootDir: maadi-atlas-backend
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: FRONTEND_ORIGIN
+        # Allow-all for the hosted demo. Lock this down to your real
+        # frontend origin once it exists.
+        value: ""
+      - key: GOOGLE_MAPS_KEY
+        sync: false
+      - key: ADMIN_SECRET
+        generateValue: true
+      - key: DB_PATH
+        # Render's free plan has no persistent disk, so put the SQLite file
+        # on the ephemeral filesystem. The server re-seeds on cold start.
+        value: "/tmp/atlas.db"
