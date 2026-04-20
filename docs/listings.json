@@ -1,0 +1,259 @@
+{
+  "listings": [
+    {
+      "id": "722ad37fd6144d15",
+      "source": "manual",
+      "sourceUrl": "https://maadi-atlas.local/seed/1",
+      "title": "Garden apartment on Road 231",
+      "street": "Road 231",
+      "area": "Maadi Degla",
+      "listing": "rent",
+      "price": "EGP 45,000 / mo",
+      "priceValue": 45000,
+      "beds": 3,
+      "baths": 2,
+      "sqm": 180,
+      "features": [
+        "garden",
+        "ground"
+      ],
+      "distances": {
+        "school216": 0.08,
+        "fablab": 0.95,
+        "maadiClub": 1.59,
+        "wadiDegla": 1.95,
+        "garden": 0.77
+      },
+      "traffic": 58,
+      "trafficNote": "Manageable outside peak, expect +6 min morning.",
+      "note": "Ground floor with garden on a leafy Degla block.",
+      "tone": "garden",
+      "lat": 29.9598,
+      "lng": 31.2655,
+      "updatedAt": "2026-04-20T16:22:31.241Z"
+    },
+    {
+      "id": "19e98f863d110644",
+      "source": "manual",
+      "sourceUrl": "https://maadi-atlas.local/seed/8",
+      "title": "Degla garden duplex near Road 216",
+      "street": "Road 218",
+      "area": "Maadi Degla",
+      "listing": "sale",
+      "price": "EGP 18.5M",
+      "priceValue": 18500000,
+      "beds": 4,
+      "baths": 4,
+      "sqm": 340,
+      "features": [
+        "garden",
+        "ground"
+      ],
+      "distances": {
+        "school216": 0.09,
+        "fablab": 0.83,
+        "maadiClub": 1.46,
+        "wadiDegla": 2.04,
+        "garden": 0.65
+      },
+      "traffic": 58,
+      "trafficNote": "Manageable outside peak, expect +6 min morning.",
+      "note": "Ground floor with garden plus internal stairs up.",
+      "tone": "garden",
+      "lat": 29.959,
+      "lng": 31.264,
+      "updatedAt": "2026-04-20T16:22:31.244Z"
+    },
+    {
+      "id": "0c9f5c1bae3c198d",
+      "source": "manual",
+      "sourceUrl": "https://maadi-atlas.local/seed/5",
+      "title": "Penthouse with roof access, Road 206",
+      "street": "Road 206",
+      "area": "Maadi Degla",
+      "listing": "sale",
+      "price": "EGP 12.0M",
+      "priceValue": 12000000,
+      "beds": 3,
+      "baths": 3,
+      "sqm": 210,
+      "features": [
+        "rooftop"
+      ],
+      "distances": {
+        "school216": 0.35,
+        "fablab": 1.23,
+        "maadiClub": 1.86,
+        "wadiDegla": 1.66,
+        "garden": 1.05
+      },
+      "traffic": 58,
+      "trafficNote": "Manageable outside peak, expect +6 min morning.",
+      "note": "Penthouse unit with private rooftop.",
+      "tone": "rooftop",
+      "lat": 29.9587,
+      "lng": 31.2682,
+      "updatedAt": "2026-04-20T16:22:31.243Z"
+    },
+    {
+      "id": "5c20b1bcf4051ff3",
+      "source": "manual",
+      "sourceUrl": "https://maadi-atlas.local/seed/2",
+      "title": "Rooftop duplex near Road 9",
+      "street": "Road 9",
+      "area": "Old Maadi",
+      "listing": "rent",
+      "price": "EGP 62,000 / mo",
+      "priceValue": 62000,
+      "beds": 3,
+      "baths": 3,
+      "sqm": 220,
+      "features": [
+        "rooftop"
+      ],
+      "distances": {
+        "school216": 0.67,
+        "fablab": 0.21,
+        "maadiClub": 0.87,
+        "wadiDegla": 2.66,
+        "garden": 0.09
+      },
+      "traffic": 58,
+      "trafficNote": "Manageable outside peak, expect +6 min morning.",
+      "note": "Penthouse with rooftop terrace steps from the Road 9 promenade.",
+      "tone": "rooftop",
+      "lat": 29.9612,
+      "lng": 31.258,
+      "updatedAt": "2026-04-20T16:22:31.241Z"
+    },
+    {
+      "id": "68642cb6967aacea",
+      "source": "manual",
+      "sourceUrl": "https://maadi-atlas.local/seed/4",
+      "title": "Sarayat villa with garden",
+      "street": "Road 256",
+      "area": "Maadi Sarayat",
+      "listing": "sale",
+      "price": "EGP 42.0M",
+      "priceValue": 42000000,
+      "beds": 5,
+      "baths": 5,
+      "sqm": 520,
+      "features": [
+        "garden",
+        "ground"
+      ],
+      "distances": {
+        "school216": 0.98,
+        "fablab": 0.29,
+        "maadiClub": 0.76,
+        "wadiDegla": 2.98,
+        "garden": 0.42
+      },
+      "traffic": 58,
+      "trafficNote": "Manageable outside peak, expect +6 min morning.",
+      "note": "Detached Sarayat villa with a mature private garden.",
+      "tone": "garden",
+      "lat": 29.964,
+      "lng": 31.256,
+      "updatedAt": "2026-04-20T16:22:31.243Z"
+    },
+    {
+      "id": "e8312a6bc8631de6",
+      "source": "manual",
+      "sourceUrl": "https://maadi-atlas.local/seed/3",
+      "title": "Ground-floor 2-bed off Road 10",
+      "street": "Road 10",
+      "area": "Old Maadi",
+      "listing": "rent",
+      "price": "EGP 38,000 / mo",
+      "priceValue": 38000,
+      "beds": 2,
+      "baths": 2,
+      "sqm": 140,
+      "features": [
+        "ground"
+      ],
+      "distances": {
+        "school216": 1.44,
+        "fablab": 0.58,
+        "maadiClub": 0.08,
+        "wadiDegla": 3.37,
+        "garden": 0.74
+      },
+      "traffic": 58,
+      "trafficNote": "Manageable outside peak, expect +6 min morning.",
+      "note": "Ground floor apartment on a quiet side street off Road 10, minutes from Maadi Club.",
+      "tone": "ground",
+      "lat": 29.9606,
+      "lng": 31.2498,
+      "updatedAt": "2026-04-20T16:22:31.242Z"
+    },
+    {
+      "id": "dc7ab082c8dbc8ef",
+      "source": "manual",
+      "sourceUrl": "https://maadi-atlas.local/seed/6",
+      "title": "Compact ground floor near Wadi Degla",
+      "street": "Street 7",
+      "area": "Zahraa El Maadi",
+      "listing": "rent",
+      "price": "EGP 22,000 / mo",
+      "priceValue": 22000,
+      "beds": 2,
+      "baths": 1,
+      "sqm": 95,
+      "features": [
+        "ground"
+      ],
+      "distances": {
+        "school216": 1.82,
+        "fablab": 2.69,
+        "maadiClub": 3.28,
+        "wadiDegla": 0.18,
+        "garden": 2.5
+      },
+      "traffic": 58,
+      "trafficNote": "Manageable outside peak, expect +6 min morning.",
+      "note": "Ground floor one-bed-plus-study five minutes from Wadi Degla Club.",
+      "tone": "ground",
+      "lat": 29.952,
+      "lng": 31.2815,
+      "updatedAt": "2026-04-20T16:22:31.244Z"
+    },
+    {
+      "id": "e4d6872b7dbdb8d7",
+      "source": "manual",
+      "sourceUrl": "https://maadi-atlas.local/seed/7",
+      "title": "New Maadi family flat with rooftop",
+      "street": "El Nasr Road",
+      "area": "New Maadi",
+      "listing": "sale",
+      "price": "EGP 9.5M",
+      "priceValue": 9500000,
+      "beds": 4,
+      "baths": 3,
+      "sqm": 245,
+      "features": [
+        "rooftop"
+      ],
+      "distances": {
+        "school216": 2.15,
+        "fablab": 2.88,
+        "maadiClub": 3.53,
+        "wadiDegla": 1.95,
+        "garden": 2.75
+      },
+      "traffic": 70,
+      "trafficNote": "Manageable outside peak, expect +4 min morning.",
+      "note": "Top-floor apartment with roof access in a 2022 building.",
+      "tone": "rooftop",
+      "lat": 29.9685,
+      "lng": 31.2845,
+      "updatedAt": "2026-04-20T16:22:31.244Z"
+    }
+  ],
+  "updatedAt": "2026-04-20T16:22:31.244Z",
+  "sources": [
+    "manual"
+  ]
+}

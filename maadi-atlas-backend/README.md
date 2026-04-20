@@ -127,24 +127,64 @@ npm test
 Covers the feature classifier (Arabic + English, vague descriptions) and
 the traffic scoring formula.
 
-## Deploy to Render (one tap, phone-friendly)
+## Deploy (free, no credit card)
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/jayfcousins-cell/SpiderTest-please-workx04zm)
+The frontend filters and sorts client-side, so we serve the full enriched
+listings as a static JSON file — no always-on server, no card required.
 
-Tap the button above on your phone:
+### Live URL (works as soon as main is pushed)
 
-1. It opens Render and asks you to sign in with GitHub (one-time).
-2. Render reads `maadi-atlas-backend/render.yaml` from the repo and
-   pre-fills the service config.
-3. Hit **Apply** and wait ~3 minutes.
-4. Render hands you back a URL like
-   `https://maadi-atlas-backend.onrender.com`.
+```
+https://cdn.jsdelivr.net/gh/jayfcousins-cell/SpiderTest-please-workx04zm@main/docs/listings.json
+```
 
-If the button doesn't pick up the branch, use the manual path:
+jsDelivr mirrors public GitHub repos with permissive CORS
+(`access-control-allow-origin: *`). Propagation is usually under a minute
+after a push to main.
 
-1. Open [dashboard.render.com/blueprints](https://dashboard.render.com/blueprints).
-2. **New Blueprint Instance** → pick this repo → **branch**
-   `claude/maadi-atlas-backend-Ev7qr` → **Apply**.
+### Frontend integration
+
+Change the hard-coded `PROPERTIES` array in `maadi-property-atlas.jsx` to a
+fetch:
+
+```js
+const res = await fetch(
+  'https://cdn.jsdelivr.net/gh/jayfcousins-cell/SpiderTest-please-workx04zm@main/docs/listings.json',
+);
+const { listings } = await res.json();
+```
+
+### Optional: GitHub Pages pretty URL
+
+One tap in the repo settings gets you `https://jayfcousins-cell.github.io/SpiderTest-please-workx04zm/listings.json`:
+
+1. Open the repo → **Settings** → **Pages**.
+2. **Source**: *Deploy from a branch*.
+3. **Branch**: `main` → folder `/docs` → **Save**.
+4. Wait ~2 minutes for the first build.
+
+### Refreshing the data
+
+The JSON regenerates automatically every Monday 03:00 UTC via
+`.github/workflows/refresh.yml`. To refresh on demand from your phone:
+
+1. Open the repo → **Actions** tab.
+2. Pick **Refresh listings** → **Run workflow**.
+3. The workflow runs `npm run export` and commits any changes back to main.
+
+### Local regeneration
+
+```bash
+cd maadi-atlas-backend
+npm run export
+# writes ../docs/listings.json
+```
+
+### Legacy: dynamic server
+
+The Fastify server under `src/server.ts` still works if you want to run a
+live API locally or on a paid host — `render.yaml` is kept in place for
+that.
 
 On first boot the server notices the DB is empty and auto-seeds the 8
 baseline Maadi listings — so `GET /api/listings` works immediately with no

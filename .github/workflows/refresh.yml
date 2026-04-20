@@ -1,0 +1,47 @@
+name: Refresh listings
+
+on:
+  # Manual trigger from the Actions tab — useful on a phone.
+  workflow_dispatch:
+  # Weekly regeneration, Monday 03:00 UTC (05:00 Cairo).
+  schedule:
+    - cron: '0 3 * * 1'
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: maadi-atlas-backend/package-lock.json
+
+      - name: Install
+        working-directory: maadi-atlas-backend
+        run: npm ci
+
+      - name: Export JSON
+        working-directory: maadi-atlas-backend
+        run: npm run export
+
+      - name: Commit if changed
+        run: |
+          if [ -z "$(git status --porcelain docs/listings.json)" ]; then
+            echo "No changes to listings.json — skipping commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/listings.json
+          git commit -m "Refresh listings.json"
+          git push
